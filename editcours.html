@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard des Cours</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f0ff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #5b21b6;
+    }
+
+    .cours-list {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .cours-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .cours-item:last-child {
+      border-bottom: none;
+    }
+
+    .cours-info h3 {
+      margin: 0 0 5px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .cours-info p {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .actions button {
+      margin-left: 8px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .edit-btn {
+      background-color: #fca311;
+      color: white;
+    }
+
+    .delete-btn {
+      background-color: #e63946;
+      color: white;
+    }
+
+    .edit-btn i, .delete-btn i {
+      margin-right: 5px;
+    }
+
+    #editForm {
+      display: none;
+      max-width: 600px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    #editForm input, #editForm textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #editForm button {
+      background-color: #5b21b6;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dashboard - Liste des Cours</h1>
+  <div class="cours-list" id="coursList"></div>
+
+  <form id="editForm">
+    <h2>Modifier le Cours</h2>
+    <input type="text" id="editTitre" placeholder="Titre">
+    <input type="text" id="editFormateur" placeholder="Formateur">
+    <input type="text" id="editNiveau" placeholder="Niveau">
+    <textarea id="editDescription" rows="4" placeholder="Description"></textarea>
+    <button type="button" onclick="sauvegarderModification()">Mettre à jour</button>
+  </form>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC64fe58iHaCTwlxpB7Us3sVkffa8iUIwI",
+      authDomain: "cours122.firebaseapp.com",
+      projectId: "cours122",
+      storageBucket: "cours122.appspot.com",
+      messagingSenderId: "497993111434",
+      appId: "1:497993111434:web:ed73d6e5f934ee7a4e1a73"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const coursList = document.getElementById("coursList");
+    const editForm = document.getElementById("editForm");
+    let coursIDActuel = "";
+
+    async function afficherCours() {
+      coursList.innerHTML = "";
+      const snapshot = await getDocs(collection(db, "cours"));
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const id = docSnap.id;
+
+        const item = document.createElement("div");
+        item.className = "cours-item";
+
+        item.innerHTML = `
+          <div class="cours-info">
+            <h3>${data.titre}</h3>
+            <p>${data.formateur} - ${data.niveau}</p>
+          </div>
+          <div class="actions">
+            <button class="edit-btn" onclick="modifierCours('${id}')"><i class='fas fa-edit'></i>Modifier</button>
+            <button class="delete-btn" onclick="supprimerCours('${id}')"><i class='fas fa-trash'></i>Supprimer</button>
+          </div>
+        `;
+
+        coursList.appendChild(item);
+      });
+    }
+
+    window.supprimerCours = async function(id) {
+      if (confirm("Voulez-vous vraiment supprimer ce cours ?")) {
+        await deleteDoc(doc(db, "cours", id));
+        afficherCours();
+      }
+    }
+
+    window.modifierCours = async function(id) {
+      const docRef = doc(db, "cours", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById("editTitre").value = data.titre;
+        document.getElementById("editFormateur").value = data.formateur;
+        document.getElementById("editNiveau").value = data.niveau;
+        document.getElementById("editDescription").value = data.description;
+        coursIDActuel = id;
+        editForm.style.display = "block";
+        window.scrollTo({ top: editForm.offsetTop, behavior: 'smooth' });
+      }
+    }
+
+    window.sauvegarderModification = async function() {
+      const docRef = doc(db, "cours", coursIDActuel);
+      await updateDoc(docRef, {
+        titre: document.getElementById("editTitre").value,
+        formateur: document.getElementById("editFormateur").value,
+        niveau: document.getElementById("editNiveau").value,
+        description: document.getElementById("editDescription").value
+      });
+      alert("Cours mis à jour avec succès !");
+      editForm.style.display = "none";
+      afficherCours();
+    }
+
+    afficherCours();
+  </script>
+</body>
+</html>

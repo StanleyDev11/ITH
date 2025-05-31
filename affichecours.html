@@ -120,7 +120,8 @@ h1 {
           <p><strong>Description :</strong> ${data.description}</p>
           <p><strong>Niveau :</strong> ${data.niveau}</p>
           <p><strong>Formateur :</strong> ${data.formateur}</p>
-          <button class="btn-inscription" onclick="alert('Inscription au cours: ${data.titre}')">S'inscrire</button>
+          <button class="btn-inscription" onclick="window.location.href='login.html?titre=${encodeURIComponent(data.titre)}'">S'inscrire</button>
+
         `;
         coursList.appendChild(card);
       });
