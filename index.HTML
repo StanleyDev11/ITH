@@ -3,103 +3,553 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Micro-Cours Étudiants</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Ablaze Academy - Micro-Cours Étudiants</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #fff;
+      padding: 0;
+      box-sizing: border-box;
     }
 
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      overflow-x: hidden;
+    }
+
+    /* Animations globales */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) translateX(100px);
+        opacity: 0;
+      }
+    }
+
+    /* Header avec effets */
     header {
-      background-color: #6c2eb9;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
       color: white;
-      padding: 10px 20px;
+      padding: 15px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      animation: fadeInLeft 1s ease;
+    }
+
+    header.scrolled {
+      background: rgba(108, 46, 185, 0.95);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
     }
 
     header h1 {
-      margin: 0;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s ease;
+    }
+
+    header h1:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-icon {
+      margin-right: 10px;
+      animation: pulse 2s infinite;
+    }
+
+    nav {
+      display: flex;
+      gap: 30px;
     }
 
     nav a {
       color: white;
-      margin: 0 10px;
       text-decoration: none;
       font-weight: 500;
+      padding: 10px 15px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    .login-btn {
-      background-color: #fca311;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
     }
 
+    nav a:hover::before {
+      left: 100%;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    /* Section Hero avec animations */
     .hero {
-      background: linear-gradient(to right, #6c2eb9, #9c27b0);
+      background: linear-gradient(-45deg, #667eea, #764ba2, #6c2eb9, #9c27b0);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
       color: white;
-      padding: 60px 20px;
+      padding: 120px 20px 80px;
       text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="50" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="30" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+      pointer-events: none;
+    }
+
+    .hero-content {
+      animation: fadeInUp 1.2s ease;
+      position: relative;
+      z-index: 2;
     }
 
     .hero h2 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      animation: fadeInUp 1s ease 0.3s both;
     }
 
     .hero p {
-      font-size: 1.1rem;
-      max-width: 600px;
-      margin: 0 auto 20px;
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      animation: fadeInUp 1s ease 0.6s both;
+    }
+
+    .hero-image {
+      margin: 40px 0;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .hero-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .hero-image img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Images des sections (conservées du premier code) */
+    .section-images {
+      margin: 40px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .section-images img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .section-images img:hover {
+      transform: scale(1.02);
+    }
+
+    /* Boutons CTA améliorés */
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease 0.9s both;
     }
 
     .cta-buttons button {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 1rem;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
       border: none;
-      border-radius: 5px;
+      border-radius: 50px;
       cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      min-width: 200px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
     .read-more {
-      background-color: #fca311;
+      background: linear-gradient(45deg, #fca311, #ff6b35);
       color: white;
+      border: 2px solid transparent;
+    }
+
+    .read-more:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(252, 163, 17, 0.4);
     }
 
     .join-now {
-      background-color: white;
-      color: #6c2eb9;
-      border: 2px solid #fff;
+      background: transparent;
+      color: white;
+      border: 2px solid white;
     }
 
-    footer {
+    .join-now:hover {
+      background: white;
+      color: #6c2eb9;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Sections avec animations */
+    .section {
+      padding: 80px 20px;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease;
+    }
+
+    .section.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .about-section {
+      background: linear-gradient(135deg, #f8f3fc 0%, #e8d5ff 100%);
       text-align: center;
-      padding: 20px;
-      background-color: #f2f2f2;
+      position: relative;
+    }
+
+    .about-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(to bottom right, transparent 49%, #f8f3fc 50%);
+    }
+
+    .contact-section {
+      background: linear-gradient(135deg, #ece3fa 0%, #d1c4e9 100%);
+      text-align: center;
+      position: relative;
+    }
+
+    .section h2 {
+      font-size: 2.5rem;
+      color: #6c2eb9;
+      margin-bottom: 30px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(45deg, #fca311, #ff6b35);
+      border-radius: 2px;
+    }
+
+    .section p {
+      max-width: 800px;
+      margin: auto;
+      font-size: 1.1rem;
+      line-height: 1.8;
       color: #555;
-      font-size: 0.9rem;
+    }
+
+    /* Cards de fonctionnalités */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 60px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    .features.animate .feature-card {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .features.animate .feature-card:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .features.animate .feature-card:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(108, 46, 185, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      color: #6c2eb9;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.2) rotate(5deg);
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      color: #6c2eb9;
+      margin-bottom: 15px;
+    }
+
+    .feature-card p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Footer amélioré */
+    footer {
+      background: linear-gradient(45deg, #2d1b69, #6c2eb9);
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #fca311, transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    /* Particules flottantes */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: floatParticle 15s infinite linear;
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(108, 46, 185, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      gap: 15px;
+    }
+
+    .mobile-menu.active {
+      display: flex;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h2 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      nav {
+        display: none;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-images img {
+        width: 100%;
+      }
     }
   </style>
-   <script src="https://unpkg.com/lucide@latest"></script> <!-- Icônes Lucide -->
 </head>
 <body>
-  <header>
-    <h1><i data-lucide="flame" style="margin-right: 8px;"></i>Ablaze Academy</h1>
-    <nav>
-      <a href="#">🏠 Accueil</a>
-      <a href="affichecours.html">📚 Cours</a>
-      <a href="#apropos">ℹ️ À propos</a>
-      <a href="#contact">📞 Contact</a>
+  <header id="header">
+    <h1>
+      <i data-lucide="flame" class="logo-icon"></i>
+      Ablaze Academy
+    </h1>
+    <nav id="nav">
+      <a href="#"><i class="fas fa-home"></i>  Accueil</a>
+      <a href="affichecours.html"><i class="fas fa-book"></i>  Cours</a>
+      <a href="#apropos"><i class="fas fa-info-circle"></i>  À propos</a>
+      <a href="#contact"><i class="fas fa-phone"></i>  Contact</a>
     </nav>
+    <button class="menu-toggle" onclick="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#"><i class="fas fa-home"></i> 🏠 Accueil</a>
+      <a href="affichecours.html"><i class="fas fa-book"></i> 📚 Cours</a>
+      <a href="#apropos"><i class="fas fa-info-circle"></i> ℹ️ À propos</a>
+      <a href="#contact"><i class="fas fa-phone"></i> 📞 Contact</a>
+    </div>
   </header>
 
   <section class="hero">
@@ -107,37 +557,167 @@
     <p>La meilleure plateforme pour partager vos connaissances ou apprendre d'autres étudiants. Facile, rapide et gratuit !</p>
     <center><img src="NN.png" alt="po" width="600"></center>
     <div class="cta-buttons">
-      <button class="read-more" onclick="location.href='affichecours.html'">Commencez maintenant</button>
+      <button class="read-more" onclick="location.href='login.html'">Inscrivez-vous / Connectez-vous</button>
       <button class="join-now" onclick="location.href='affichecours.html'">Voir les cours</button>
     </div>
   </section>
-     
 
- <section id="apropos" style="padding: 60px 20px; background-color: #f8f3fc; text-align: center;">
-    
-      <center><img src="PPP.png" alt="po" width="1200"></center> 
-<center><img src="PPPP.png" alt="po" width="1200"></center>
-  </section>
   <section id="apropos" style="padding: 60px 20px; background-color: #f8f3fc; text-align: center;">
     <h2>À propos</h2>
-    <p style="max-width: 700px; margin: auto;">
+    <p>
       Notre plateforme a été créée par des étudiants pour des étudiants, dans le but de faciliter le partage de savoirs entre pairs.
       Que vous soyez passionné par un sujet ou en quête de connaissances, vous trouverez ici une communauté prête à apprendre et à enseigner.
     </p>
+    
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <h3>Communauté Active</h3>
+        <p>Rejoignez une communauté d'étudiants passionnés qui partagent leurs connaissances et apprennent ensemble.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <h3>Micro-Apprentissage</h3>
+        <p>Des cours courts et efficaces conçus pour s'adapter à votre emploi du temps chargé d'étudiant.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <h3>Qualité Garantie</h3>
+        <p>Tous nos cours sont créés et évalués par des étudiants experts dans leur domaine.</p>
+      </div>
+    </div>
   </section>
 
-  <section id="contact" style="padding: 60px 20px; background-color: #ece3fa; text-align: center;">
+  <section class="section contact-section" id="contact">
     <h2>Contact</h2>
-    <p>📧 Email : contact@ablazeacademy.com</p>
-    <p>📍 Adresse : Université de Technologie, Bâtiment D</p>
+    <p><i class="fas fa-envelope"></i> 📧 Email : contact@ablazeacademy.com</p>
+    <p><i class="fas fa-map-marker-alt"></i> 📍 Adresse : Université de Technologie, Bâtiment D</p>
   </section>
 
   <footer>
-    &copy; 2025 Micro-Cours Étudiants. Tous droits réservés.
+    <p>&copy; 2025 Ablaze Academy - Micro-Cours Étudiants. Tous droits réservés.</p>
   </footer>
 
   <script>
-    lucide.createIcons(); // Affiche les icônes Lucide
+    // Toggle mobile menu
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('active');
+    }
+
+    // Animation au scroll
+    function animateOnScroll() {
+      const sections = document.querySelectorAll('.section');
+      const features = document.querySelector('.features');
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const scrollTop = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        
+        if (scrollTop > sectionTop - windowHeight + 100) {
+          section.classList.add('animate');
+        }
+      });
+      
+      // Animation des features
+      if (features) {
+        const featuresTop = features.offsetTop;
+        const scrollTop = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        
+        if (scrollTop > featuresTop - windowHeight + 100) {
+          features.classList.add('animate');
+        }
+      }
+    }
+
+    // Header scroll effect
+    function updateHeader() {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }
+
+    // Créer des particules
+    function createParticles() {
+      const particles = document.getElementById('particles');
+      for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.width = particle.style.height = Math.random() * 10 + 5 + 'px';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        particles.appendChild(particle);
+      }
+    }
+
+    // Smooth scroll pour les liens
+    function smoothScroll() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    }
+
+    // Fermer le menu mobile quand on clique sur un lien
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.remove('active');
+      });
+    });
+
+    // Initialisation
+    window.addEventListener('scroll', () => {
+      animateOnScroll();
+      updateHeader();
+    });
+
+    window.addEventListener('load', () => {
+      createParticles();
+      smoothScroll();
+      animateOnScroll();
+      // Initialiser les icônes Lucide avec vérification
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    });
+
+    // Fermer le menu mobile si on clique ailleurs
+    document.addEventListener('click', (e) => {
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuToggle = document.querySelector('.menu-toggle');
+      
+      if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+        mobileMenu.classList.remove('active');
+      }
+    });
+
+    // Animation initiale
+    setTimeout(() => {
+      document.body.style.opacity = '1';
+    }, 100);
   </script>
 </body>
 </html>
