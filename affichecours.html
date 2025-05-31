@@ -711,13 +711,44 @@
         
         <div class="card-content">
           <h3>${data.titre}</h3>
-          <p><strong>Description :</strong> ${data.description}</p>
-          <p><strong>Niveau :</strong> ${data.niveau}</p>
-          <p><strong>Formateur :</strong> ${data.formateur}</p>
-          <button class="btn-inscription" onclick="alert('Inscription au cours: ${data.titre}')">S'inscrire</button>
-        `;
-        coursList.appendChild(card);
-      });
+          
+          <div class="card-info">
+            <i class="fas fa-align-left"></i>
+            <div>
+              <strong>Description :</strong>
+              ${truncateText(data.description, 150)}
+            </div>
+          </div>
+          
+          <div class="card-info">
+            <i class="fas fa-user-tie"></i>
+            <div>
+              <strong>Formateur :</strong>
+              ${data.formateur}
+            </div>
+          </div>
+          
+          <div class="card-info">
+            <i class="fas fa-calendar-alt"></i>
+            <div>
+              <strong>Ajouté le :</strong>
+              ${data.date ? formatDate(data.date) : 'Date non disponible'}
+            </div>
+          </div>
+          
+          <button class="btn-inscription" onclick="window.location.href='login.html?titre=${encodeURIComponent(data.titre)}'">
+            <i class="fas fa-rocket"></i>
+            S'inscrire maintenant
+          </button>
+        </div>
+      `;
+      
+      coursList.appendChild(card);
+      
+      // Animation d'apparition
+      setTimeout(() => {
+        card.classList.add('animate');
+      }, 50);
     }
 
     // Header scroll effect

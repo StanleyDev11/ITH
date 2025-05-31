@@ -553,16 +553,38 @@
   </header>
 
   <section class="hero">
-    <h2>Proposez ou Suivez un Micro-Cours</h2>
-    <p>La meilleure plateforme pour partager vos connaissances ou apprendre d'autres étudiants. Facile, rapide et gratuit !</p>
-    <center><img src="NN.png" alt="po" width="600"></center>
-    <div class="cta-buttons">
-      <button class="read-more" onclick="location.href='login.html'">Inscrivez-vous / Connectez-vous</button>
-      <button class="join-now" onclick="location.href='affichecours.html'">Voir les cours</button>
+    <div class="particles" id="particles"></div>
+    
+    <div class="hero-content">
+      <h2>Proposez ou Suivez un Micro-Cours</h2>
+      <p>La meilleure plateforme pour partager vos connaissances ou apprendre d'autres étudiants. Facile, rapide et gratuit !</p>
+      
+      <div class="hero-image">
+        <img src="NN.png" alt="Plateforme éducative" width="600" 
+             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 600 300\'%3E%3Crect width=\'600\' height=\'300\' fill=\'%23f0f4f8\'/%3E%3Ctext x=\'300\' y=\'150\' text-anchor=\'middle\' dy=\'.3em\' font-family=\'Arial\' font-size=\'20\' fill=\'%236c2eb9\'%3EImage Éducative%3C/text%3E%3C/svg%3E'">
+      </div>
+      
+      <div class="section-images">
+        <img src="PPP.png" alt="Fonctionnalités" width="1200" 
+             onerror="this.style.display='none'">
+        <img src="PPPP.png" alt="Avantages" width="1200" 
+             onerror="this.style.display='none'">
+      </div>
+      
+      <div class="cta-buttons">
+        <button class="read-more" onclick="location.href='affichecours.html'">
+          <i class="fas fa-rocket"></i>
+          Commencer maintenant
+        </button>
+        <button class="join-now" onclick="location.href='affichecours.html'">
+          <i class="fas fa-graduation-cap"></i>
+          Voir les cours
+        </button>
+      </div>
     </div>
   </section>
 
-  <section id="apropos" style="padding: 60px 20px; background-color: #f8f3fc; text-align: center;">
+  <section class="section about-section" id="apropos">
     <h2>À propos</h2>
     <p>
       Notre plateforme a été créée par des étudiants pour des étudiants, dans le but de faciliter le partage de savoirs entre pairs.
