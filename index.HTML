@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Micro-Cours Étudiants</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff;
+    }
+
+    header {
+      background-color: #6c2eb9;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-btn {
+      background-color: #fca311;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .hero {
+      background: linear-gradient(to right, #6c2eb9, #9c27b0);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    .cta-buttons button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .read-more {
+      background-color: #fca311;
+      color: white;
+    }
+
+    .join-now {
+      background-color: white;
+      color: #6c2eb9;
+      border: 2px solid #fff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #f2f2f2;
+      color: #555;
+      font-size: 0.9rem;
+    }
+  </style>
+   <script src="https://unpkg.com/lucide@latest"></script> <!-- Icônes Lucide -->
+</head>
+<body>
+  <header>
+    <h1><i data-lucide="flame" style="margin-right: 8px;"></i>Ablaze Academy</h1>
+    <nav>
+      <a href="#">🏠 Accueil</a>
+      <a href="affichecours.html">📚 Cours</a>
+      <a href="#apropos">ℹ️ À propos</a>
+      <a href="#contact">📞 Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Proposez ou Suivez un Micro-Cours</h2>
+    <p>La meilleure plateforme pour partager vos connaissances ou apprendre d'autres étudiants. Facile, rapide et gratuit !</p>
+    <center><img src="NN.png" alt="po" width="600"></center>
+    <div class="cta-buttons">
+      <button class="read-more" onclick="location.href='login.html'">Inscrivez-vous / Connectez-vous</button>
+      <button class="join-now" onclick="location.href='affichecours.html'">Voir les cours</button>
+    </div>
+  </section>
+
+  <section id="apropos" style="padding: 60px 20px; background-color: #f8f3fc; text-align: center;">
+    <h2>À propos</h2>
+    <p style="max-width: 700px; margin: auto;">
+      Notre plateforme a été créée par des étudiants pour des étudiants, dans le but de faciliter le partage de savoirs entre pairs.
+      Que vous soyez passionné par un sujet ou en quête de connaissances, vous trouverez ici une communauté prête à apprendre et à enseigner.
+    </p>
+  </section>
+
+  <section id="contact" style="padding: 60px 20px; background-color: #ece3fa; text-align: center;">
+    <h2>Contact</h2>
+    <p>📧 Email : contact@ablazeacademy.com</p>
+    <p>📍 Adresse : Université de Technologie, Bâtiment D</p>
+  </section>
+
+  <footer>
+    &copy; 2025 Micro-Cours Étudiants. Tous droits réservés.
+  </footer>
+
+  <script>
+    lucide.createIcons(); // Affiche les icônes Lucide
+  </script>
+</body>
+</html>

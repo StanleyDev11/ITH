@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Créer un Micro-Cours</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f3e7ff, #e4d0ff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      text-align: center;
+      color: #6c2eb9;
+      margin-bottom: 24px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #6c2eb9;
+      outline: none;
+    }
+    button {
+      background-color: #6c2eb9;
+      color: white;
+      padding: 12px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #5722a8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Créer un Micro-Cours</h2>
+    <input type="text" id="titre" placeholder="Titre du cours" />
+    <textarea id="description" placeholder="Description du cours" rows="4"></textarea>
+    <select id="niveau">
+      <option value="">Niveau</option>
+      <option value="Débutant">Débutant</option>
+      <option value="Intermédiaire">Intermédiaire</option>
+      <option value="Avancé">Avancé</option>
+    </select>
+    <input type="text" id="formateur" placeholder="Nom du formateur" />
+    <button onclick="ajouterCours()">Ajouter le cours</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC64fe58iHaCTwlxpB7Us3sVkffa8iUIwI",
+      authDomain: "cours122.firebaseapp.com",
+      projectId: "cours122",
+      storageBucket: "cours122.appspot.com",
+      messagingSenderId: "497993111434",
+      appId: "1:497993111434:web:ed73d6e5f934ee7a4e1a73",
+      measurementId: "G-H6DLLFPGJT"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.ajouterCours = async function () {
+      const titre = document.getElementById('titre').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const niveau = document.getElementById('niveau').value;
+      const formateur = document.getElementById('formateur').value.trim();
+
+      if (titre && description && niveau && formateur) {
+        try {
+          await addDoc(collection(db, "cours"), {
+            titre,
+            description,
+            niveau,
+            formateur,
+            date: new Date().toISOString()
+          });
+          alert("Cours ajouté avec succès !");
+          document.getElementById('titre').value = "";
+          document.getElementById('description').value = "";
+          document.getElementById('niveau').value = "";
+          document.getElementById('formateur').value = "";
+        } catch (e) {
+          alert("Erreur lors de l'ajout : " + e);
+        }
+      } else {
+        alert("Veuillez remplir tous les champs.");
+      }
+    }
+  </script>
+</body>
+</html>

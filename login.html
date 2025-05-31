@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion / Inscription</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    h2 {
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #6c2eb9;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .switch {
+      text-align: center;
+      margin-top: 15px;
+      cursor: pointer;
+      color: #6c2eb9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="loginForm">
+      <h2>Connexion</h2>
+      <input type="email" id="loginEmail" placeholder="Email" />
+      <input type="password" id="loginPassword" placeholder="Mot de passe" />
+      <button onclick="login()">Se connecter</button>
+      <p class="switch" onclick="toggleForm()">Pas encore inscrit ? Créez un compte</p>
+    </div>
+
+    <div id="signupForm" style="display: none;">
+      <h2>Inscription</h2>
+      <input type="email" id="signupEmail" placeholder="Email" />
+      <input type="password" id="signupPassword" placeholder="Mot de passe" />
+      <button onclick="signup()">S'inscrire</button>
+      <p class="switch" onclick="toggleForm()">Déjà un compte ? Connectez-vous</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC64fe58iHaCTwlxpB7Us3sVkffa8iUIwI",
+      authDomain: "cours122.firebaseapp.com",
+      projectId: "cours122",
+      storageBucket: "cours122.appspot.com",
+      messagingSenderId: "497993111434",
+      appId: "1:497993111434:web:ed73d6e5f934ee7a4e1a73",
+      measurementId: "G-H6DLLFPGJT"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.toggleForm = function () {
+      const login = document.getElementById('loginForm');
+      const signup = document.getElementById('signupForm');
+      if (login.style.display === 'none') {
+        login.style.display = 'block';
+        signup.style.display = 'none';
+      } else {
+        login.style.display = 'none';
+        signup.style.display = 'block';
+      }
+    }
+
+    window.signup = function () {
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("Inscription réussie !");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
+
+    window.login = function () {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("Connexion réussie !");
+          window.location.href = "index.html";
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
+  </script>
+</body>
+</html>

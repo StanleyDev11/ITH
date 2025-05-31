@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liste des Micro-Cours</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+  margin: 0;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(to right, #f0e9ff, #e1d1ff);
+}
+
+h1 {
+  text-align: center;
+  color: #6c2eb9;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.cours-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.cours-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.card h3 {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #5b21b6;
+  text-align: center;
+}
+
+.card p {
+  margin: 4px 0;
+  font-size: 14px;
+  text-align: center;
+  color: #444;
+}
+
+.btn-inscription {
+  margin-top: 8px;
+  background-color: #6c2eb9;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.btn-inscription:hover {
+  background-color: #5722a8;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Liste des Micro-Cours</h1>
+  <div class="cours-container" id="coursList"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC64fe58iHaCTwlxpB7Us3sVkffa8iUIwI",
+      authDomain: "cours122.firebaseapp.com",
+      projectId: "cours122",
+      storageBucket: "cours122.appspot.com",
+      messagingSenderId: "497993111434",
+      appId: "1:497993111434:web:ed73d6e5f934ee7a4e1a73",
+      measurementId: "G-H6DLLFPGJT"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const coursList = document.getElementById("coursList");
+
+    async function chargerCours() {
+      const querySnapshot = await getDocs(collection(db, "cours"));
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const titre = encodeURIComponent(data.titre);
+        const imageUrl = `https://source.unsplash.com/400x200/?${titre},education`;
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img class="cours-img" src="${imageUrl}" alt="${data.titre}">
+          <h3>${data.titre}</h3>
+          <p><strong>Description :</strong> ${data.description}</p>
+          <p><strong>Niveau :</strong> ${data.niveau}</p>
+          <p><strong>Formateur :</strong> ${data.formateur}</p>
+          <button class="btn-inscription" onclick="alert('Inscription au cours: ${data.titre}')">S'inscrire</button>
+        `;
+        coursList.appendChild(card);
+      });
+    }
+
+    chargerCours();
+  </script>
+</body>
+</html>
